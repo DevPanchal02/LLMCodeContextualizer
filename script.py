@@ -36,9 +36,14 @@ def parse_gitignore(project_path):
 
     return patterns
 
-"""Check if a path should be ignored based on gitignore patterns."""
+"""Check if a path should be ignored based on gitignore patterns or is package-lock.json."""
 def should_ignore(rel_path, patterns): # Changed parameter to rel_path
     path_str = str(rel_path) # Use rel_path
+    
+    # Always ignore package-lock.json
+    if path_str == 'package-lock.json' or path_str.endswith('/package-lock.json'):
+        return True
+        
     for pattern in patterns:
         if pattern.startswith('/'):
             pattern = pattern[1:]
